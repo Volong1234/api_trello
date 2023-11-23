@@ -6,7 +6,9 @@
 
 import express from 'express'
 // import { mapOrder } from './utils/sorts.js'
-import {CONNECT_DB, GET_DB} from './config/mongodb.js'
+import {CONNECT_DB, GET_DB, CLOSE_DB} from './config/mongodb.js'
+import exitHook from 'async-exit-hook'
+import 'dotenv/config'
 
  const START_SERVER = () => {
   const app = express()
@@ -21,6 +23,10 @@ import {CONNECT_DB, GET_DB} from './config/mongodb.js'
   app.listen(port, hostname, () => {
     console.log(`Hello Trung Quan Dev, I am running at ${ hostname }:${ port }/`)
   })
+
+  exitHook((singal) => {
+    CLOSE_DB()
+  } )
  }
 
 CONNECT_DB()
@@ -29,4 +35,4 @@ CONNECT_DB()
 .catch(error => {
   console.error(error)
   process.exit(0)
-} )
+})

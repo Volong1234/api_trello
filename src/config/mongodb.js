@@ -28,3 +28,7 @@ export const GET_DB = () => {
     if(!trelloDatabaseIntance) throw new Error('Must connect to Database first!')
      return trelloDatabaseIntance
 }
+
+export const CLOSE_DB = async () => {
+    await mongoClintIntance.close()
+}
