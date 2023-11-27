@@ -6,9 +6,11 @@
 
 import express from 'express'
 
-const router = express.Router()
+const Router = express.Router()
 
-router.get('/status',(req, res) => {
+Router.get('/status',(req, res) => {
     res.status(200).json({message:'APIs V1 are ready to use'})
 
 })
+
+export const APIs_V1 = Router

@@ -9,19 +9,22 @@ import express from 'express'
 import {CONNECT_DB, GET_DB, CLOSE_DB} from './config/mongodb.js'
 import exitHook from 'async-exit-hook'
 import 'dotenv/config'
+import { APIs_V1 } from './routes/v1/index.js'
 
  const START_SERVER = () => {
   const app = express()
 
   const hostname = 'localhost'
   const port = 8017
+
+  app.use('/v1', APIs_V1)
   
-  app.get('/', (req, res) => {
-    res.end('<h1>Hello World!</h1><hr>')
-  })
+  // app.get('/', (req, res) => {
+  //   res.end('<h1>Hello World!</h1><hr>')
+  // })
   
   app.listen(port, hostname, () => {
-    console.log(`Hello Trung Quan Dev, I am running at ${ hostname }:${ port }/`)
+    console.log(`Hello Long Dev, I am running at ${ hostname }:${ port }/`)
   })
 
   exitHook((singal) => {
