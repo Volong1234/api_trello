@@ -15,6 +15,6 @@ Router.route('/')
     res.status(StatusCodes.OK).json({message: 'APIs boardRouter sare ready to use'})
 })
 
-.post(boardValidation.createNew)
+// .post(boardValidation.createNew)
 
 export const boardRouters = Router
