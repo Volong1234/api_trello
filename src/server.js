@@ -16,7 +16,9 @@ import { APIs_V1 } from './routes/v1/index.js'
 
   const hostname = 'localhost'
   const port = 8017
-
+  // Enable req.body json
+   app.use(express.json())
+  // APIs v1
   app.use('/v1', APIs_V1)
   
   // app.get('/', (req, res) => {
