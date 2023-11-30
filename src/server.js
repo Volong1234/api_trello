@@ -10,6 +10,7 @@ import {CONNECT_DB, GET_DB, CLOSE_DB} from './config/mongodb.js'
 import exitHook from 'async-exit-hook'
 import 'dotenv/config'
 import { APIs_V1 } from './routes/v1/index.js'
+import {errorHandlingMiddleware} from './middlewares/errorHandlingMiddleware.js'
 
  const START_SERVER = () => {
   const app = express()
@@ -24,6 +25,8 @@ import { APIs_V1 } from './routes/v1/index.js'
   // app.get('/', (req, res) => {
   //   res.end('<h1>Hello World!</h1><hr>')
   // })
+
+  app.use(errorHandlingMiddleware)
   
   app.listen(port, hostname, () => {
     console.log(`Hello Long Dev, I am running at ${ hostname }:${ port }/`)

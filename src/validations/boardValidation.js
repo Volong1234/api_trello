@@ -6,6 +6,7 @@
 import Joi from 'joi'
 import express from 'express'
 import {StatusCodes} from 'http-status-codes';
+import ApiError from '../utils/ApiError.js'
 
 
 const createNew = async (req, res, next) => {
@@ -16,16 +17,19 @@ const createNew = async (req, res, next) => {
     })
 
     try {
-        console.log(req.body)
+        //chỉ định nhiều lỗi validation
         await correctCondtion.validateAsync(req.body, {abortEarly: false})
-        res.status(StatusCodes.CREATED).json({
-            message: "POST validation api create new board"
-        }) 
+        // validate dữ liệu hợp lệ thì đi tiếp sang controller
+        next()
+         
     }catch(error) {
-        console.log(error)
-        res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
-            errors: new Error(error).message
-        })
+        const errorMessge = new Error(error).message
+        const customError = new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, errorMessge)
+        next(customError)
+        // console.log(error)
+        // res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
+        //     errors: new Error(error).message
+        // })
     }
 }
 
