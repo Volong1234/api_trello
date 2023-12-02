@@ -3,3 +3,14 @@
  * YouTube: https://youtube.com/@trungquandev
  * "A bit of fragrance clings to the hand that gives flowers!"
  */
+
+import 'dotenv/config'
+
+export const env = {
+MONGODB_URI: process.env.MONGODB_URI,
+
+
+
+BUILD_MODE: process.env.BUILD_MODE,
+
+}
