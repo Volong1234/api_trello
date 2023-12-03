@@ -5,15 +5,14 @@
  */
 import {StatusCodes} from 'http-status-codes';
 import ApiError from '../utils/ApiError.js'
+import {boardService} from '../services/boardService.js'
 
 const createNew = async (req, res, next) => { 
    try {
-
+    // điều hướng dữ liệu sang service
+    const createBoard = await boardService.createNew(req.body)
     // throw new Error('test error')
-    console.log(req.body)
-    res.status(StatusCodes.CREATED).json({
-        message: "POST 123 validation api create new board"
-    })
+    res.status(StatusCodes.CREATED).json(createBoard)
    } catch(error){
          next(error)
         // console.log(error)
