@@ -16,9 +16,13 @@ const createNew = async (reqBody) => {
 
     const createBoard = await boardModel.createNew(newBoard)
     console.log(createBoard)
-    
+
+    // lấy bản ghi board sau khi gọi tuỳ mục đích
+
+    const getNewBoard = await boardModel.findOneById(createBoard.insertedId)
+    console.log(getNewBoard)
     // trả kết quả về, trong service luôn phải có return 
-    return createBoard
+    return getNewBoard
 
    }catch(error){
       throw error
