@@ -5,6 +5,7 @@
  */
 
 import Joi from 'joi'
+import { GET_DB } from '../config/mongodb.js'
 
 // Define Collection(Name & Schema)
 
@@ -24,7 +25,19 @@ const BOARD_COLLECTION_SCHEMA = Joi.object({
 
 })
 
+const createNew = async (data) => {
+   try {
+       const createdBoard = await GET_DB().colection(BOARD_COLLECTION_NAME).insertOne(data)
+       return createdBoard
+    // console.log(data)
+    // return data
+   } catch(error){
+     throw new Error(error)
+   } 
+}
+
 export const boardModel = {
     BOARD_COLLECTION_NAME,
-    BOARD_COLLECTION_SCHEMA
+    BOARD_COLLECTION_SCHEMA, 
+    createNew
 }

@@ -5,6 +5,7 @@
  */
 import ApiError from '../utils/ApiError.js'
 import {slugify} from '../utils/formater.js'
+import { boardModel } from '../models/boardModel.js'
 
 const createNew = async (reqBody) => {
    try {
@@ -12,9 +13,12 @@ const createNew = async (reqBody) => {
         ...reqBody,
         slug: slugify(reqBody.title)
     }
+
+    const createBoard = await boardModel.createNew(newBoard)
+    console.log(createBoard)
     
     // trả kết quả về, trong service luôn phải có return 
-    return newBoard
+    return createBoard
 
    }catch(error){
       throw error
