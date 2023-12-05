@@ -6,6 +6,7 @@
 import ApiError from '../utils/ApiError.js'
 import {slugify} from '../utils/formater.js'
 import { boardModel } from '../models/boardModel.js'
+import { StatusCodes } from 'http-status-codes' 
 
 const createNew = async (reqBody) => {
    try {
@@ -29,6 +30,24 @@ const createNew = async (reqBody) => {
    }
 }
 
+const getDetail = async (boardId) => {
+    try {
+     const board = await boardModel.getDetail(boardId)
+     console.log(board)
+
+     if(!board){
+        throw new ApiError(StatusCodes.NOT_FOUND, 'Board not found')
+     }
+ 
+     // trả kết quả về, trong service luôn phải có return 
+     return board
+ 
+    }catch(error){
+       throw error
+    }
+ }
+
 export const boardService = {
-    createNew
+    createNew,
+    getDetail
 }
