@@ -3,3 +3,8 @@
  * YouTube: https://youtube.com/@trungquandev
  * "A bit of fragrance clings to the hand that gives flowers!"
  */
+
+export const BOARD_TYPES = {
+    PUBLIC: 'public',
+    PRIVATE:'private'
+}

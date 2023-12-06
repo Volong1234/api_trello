@@ -7,6 +7,10 @@
 import Joi from 'joi'
 import {ObjectId} from 'mongodb'
 import { GET_DB } from '../config/mongodb.js'
+import {BOARD_TYPES} from '../utils/constants.js'
+import {columnModel} from '../models/columnModel.js'
+import {cardModel} from '../models/cardModel.js'
+
 
 // Define Collection(Name & Schema)
 
@@ -22,7 +26,9 @@ const BOARD_COLLECTION_SCHEMA = Joi.object({
 
     updateAt: Joi.date().timestamp('javascript').default(null), 
 
-    _destroy: Joi.boolean().default(false)
+    _destroy: Joi.boolean().default(false),
+
+    type: Joi.string().valid(BOARD_TYPES.PUBLIC, BOARD_TYPES.PRIVATE).required()
 
 })
 
@@ -52,13 +58,28 @@ const findOneById = async (id) => {
       throw new Error(error)
     }
 }
-
+//update aggreagte 
 const getDetail = async (id) => {
     try { 
-        const result = await GET_DB().collection(BOARD_COLLECTION_NAME).findOne({
-            _id: new ObjectId(id)
-        })
-        return result
+        const result = await GET_DB().collection(BOARD_COLLECTION_NAME).aggregate([
+            {$match: {
+                _id: new ObjectId(id),
+                _destroy: false
+            }},
+            {$lookup: {
+                from: columnModel.COLUMN_COLLECTION_NAME,
+                localField: '_id',
+                foreignField: 'boardId',
+                as: 'columns'
+            }},
+            {$lookup: {
+                from: cardModel.CARD_COLLECTION_NAME,
+                localField: '_id',
+                foreignField: 'boardId',
+                as: 'cards'
+            }}
+        ]).toArray()
+        return result[0] || {}
     } catch(error) {
       throw new Error(error)
     }
